@@ -1,0 +1,128 @@
+body {
+    background: #002C5F;
+    color: #ddd;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.ticker {
+    width: 80%;
+    margin: 2rem auto;
+    background-color: #111;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-title {
+    color: #FFC107;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.view-toggle button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #D71920;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.view-toggle button.active,
+.view-toggle button:hover {
+    background-color: #b4161a;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    color: #FFC107;
+    font-size: 1.2em;
+    padding-bottom: 0.5em;
+}
+
+td {
+    padding: 0.5em 0;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.animate-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease-in;
+}
+
+.animate-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/*Admin CSS */
+
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.form-section input,
+.form-section select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    font-size: 1em;
+    background-color: #222;
+    color: #fff;
+    width: 150px;
+}
+
+.crud-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.crud-button.add {
+    background-color: #28a745;
+    color: white;
+}
+
+.crud-button.update {
+    background-color: #17a2b8;
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.crud-button.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.crud-button:hover {
+    opacity: 0.9;
+}
+

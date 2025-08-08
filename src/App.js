@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Import your display components
-import CityTable from './components/CityTable';
-import FlightTable from './components/FlightTable';
-import AirportTable from './components/AirportTable';
-import AircraftTable from './components/AircraftTable';
-import AirlineTable from './components/AirlineTable';
-import GateTable from './components/GateTable';
-import PassengerTable from './components/PassengerTable';
+// Pages
+import LoginPage from './pages/LoginPage';
+
+// Dashboards
+import UserDashboard from './pages/UserDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 class App extends Component {
     constructor(props) {
@@ -21,7 +20,8 @@ class App extends Component {
             aircraft: [],
             airlines: [],
             gates: [],
-            passengers: []
+            passengers: [],
+            userRole: null // 'user' or 'admin'
         };
     }
 
@@ -47,8 +47,55 @@ class App extends Component {
             .catch(error => console.error(error));
     }
 
-    render() {
-        const { cities, flights, airports, aircraft, airlines, gates, passengers } = this.state;
+    setUserRole = (role) => {
+        this.setState({ userRole: role });
+    };
+
+    handleAddFlight = (flight) => {
+        // Example POST request
+        fetch('http://localhost:8080/api/flights', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(flight)
+        })
+            .then(res => res.json())
+            .then(newFlight => {
+                this.setState(prev => ({
+                    flights: [...prev.flights, newFlight]
+                }));
+            })
+            .catch(err => console.error(err));
+    };
+
+    handleUpdateFlight = (flight) => {
+        fetch(`http://localhost:8080/api/flights/${flight.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(flight)
+        })
+            .then(res => res.json())
+            .then(updatedFlight => {
+                this.setState(prev => ({
+                    flights: prev.flights.map(f => f.id === updatedFlight.id ? updatedFlight : f)
+                }));
+            })
+            .catch(err => console.error(err));
+    };
+
+    handleDeleteFlight = (id) => {
+        fetch(`http://localhost:8080/api/flights/${id}`, {
+            method: 'DELETE'
+        })
+            .then(() => {
+                this.setState(prev => ({
+                    flights: prev.flights.filter(f => f.id !== id)
+                }));
+            })
+            .catch(err => console.error(err));
+    };
+
+    renderDashboard = () => {
+        const { userRole, flights, airports } = this.state;
 
         return (
             <div className="App">
@@ -58,15 +105,35 @@ class App extends Component {
                     </a>
                 </nav>
 
-                {/* Render each table component with its data */}
-                <CityTable cities={cities} />
-                <FlightTable flights={flights} />
-                <AirportTable airports={airports} />
-                <AircraftTable aircraft={aircraft} />
-                <AirlineTable airlines={airlines} />
-                <GateTable gates={gates} />
-                <PassengerTable passengers={passengers} />
+                {userRole === 'user' ? (
+                    <UserDashboard airports={airports} flights={flights} />
+                ) : (
+                    <AdminDashboard
+                        flights={flights}
+                        onAddFlight={this.handleAddFlight}
+                        onUpdateFlight={this.handleUpdateFlight}
+                        onDeleteFlight={this.handleDeleteFlight}
+                    />
+                )}
             </div>
+        );
+    };
+
+    render() {
+        const { userRole } = this.state;
+
+        return (
+            <Router>
+                <Routes>
+                    <Route path="/" element={<LoginPage setUserRole={this.setUserRole} />} />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            userRole ? this.renderDashboard() : <Navigate to="/" replace />
+                        }
+                    />
+                </Routes>
+            </Router>
         );
     }
 }
