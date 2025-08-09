@@ -127,12 +127,35 @@ class App extends Component {
                 <Routes>
                     <Route path="/" element={<LoginPage setUserRole={this.setUserRole} />} />
                     <Route
-                        path="/dashboard"
+                        path="/AdminDashboard"
                         element={
-                            userRole ? this.renderDashboard() : <Navigate to="/" replace />
+                            this.state.userRole === 'admin' ? (
+                                <AdminDashboard
+                                    flights={this.state.flights}
+                                    onAddFlight={this.handleAddFlight}
+                                    onUpdateFlight={this.handleUpdateFlight}
+                                    onDeleteFlight={this.handleDeleteFlight}
+                                />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/UserDashboard"
+                        element={
+                            this.state.userRole === 'user' ? (
+                                <UserDashboard
+                                    airports={this.state.airports}
+                                    flights={this.state.flights}
+                                />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
                         }
                     />
                 </Routes>
+
             </Router>
         );
     }
