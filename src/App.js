@@ -21,7 +21,7 @@ class App extends Component {
             airlines: [],
             gates: [],
             passengers: [],
-            userRole: null // 'user' or 'admin'
+            userRole: null
         };
     }
 
@@ -52,7 +52,6 @@ class App extends Component {
     };
 
     handleAddFlight = (flight) => {
-        // Example POST request
         fetch('http://localhost:8080/api/flights', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -94,44 +93,33 @@ class App extends Component {
             .catch(err => console.error(err));
     };
 
-    renderDashboard = () => {
-        const { userRole, flights, airports } = this.state;
-
-        return (
-            <div className="App">
-                <nav className="navbar navbar-light bg-light">
-                    <a className="navbar-brand" href="./">
-                        <img src={logo} alt="logo" width="40" /> Airport Dashboard
-                    </a>
-                </nav>
-
-                {userRole === 'user' ? (
-                    <UserDashboard airports={airports} flights={flights} />
-                ) : (
-                    <AdminDashboard
-                        flights={flights}
-                        onAddFlight={this.handleAddFlight}
-                        onUpdateFlight={this.handleUpdateFlight}
-                        onDeleteFlight={this.handleDeleteFlight}
-                    />
-                )}
-            </div>
-        );
-    };
-
     render() {
-        const { userRole } = this.state;
+        const {
+            userRole,
+            flights,
+            passengers,
+            airports,
+            aircraft,
+            airlines,
+            cities
+        } = this.state;
 
         return (
             <Router>
                 <Routes>
                     <Route path="/" element={<LoginPage setUserRole={this.setUserRole} />} />
+
                     <Route
                         path="/AdminDashboard"
                         element={
-                            this.state.userRole === 'admin' ? (
+                            userRole === 'admin' ? (
                                 <AdminDashboard
-                                    flights={this.state.flights}
+                                    flights={flights}
+                                    passengers={passengers}
+                                    airports={airports}
+                                    aircraft={aircraft}
+                                    airlines={airlines}
+                                    cities={cities}
                                     onAddFlight={this.handleAddFlight}
                                     onUpdateFlight={this.handleUpdateFlight}
                                     onDeleteFlight={this.handleDeleteFlight}
@@ -141,13 +129,18 @@ class App extends Component {
                             )
                         }
                     />
+
                     <Route
                         path="/UserDashboard"
                         element={
-                            this.state.userRole === 'user' ? (
+                            userRole === 'user' ? (
                                 <UserDashboard
-                                    airports={this.state.airports}
-                                    flights={this.state.flights}
+                                    flights={flights}
+                                    passengers={passengers}
+                                    airports={airports}
+                                    aircraft={aircraft}
+                                    airlines={airlines}
+                                    cities={cities}
                                 />
                             ) : (
                                 <Navigate to="/" replace />
@@ -155,7 +148,6 @@ class App extends Component {
                         }
                     />
                 </Routes>
-
             </Router>
         );
     }

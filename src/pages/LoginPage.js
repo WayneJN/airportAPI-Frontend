@@ -11,11 +11,14 @@ const LoginPage = ({ setUserRole }) => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Simple hardcoded login logic for demo purposes
         if (username === 'user' && password === 'user') {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userRole', 'user');
             setUserRole('user');
             navigate('/UserDashboard');
         } else if (username === 'admin' && password === 'admin') {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userRole', 'admin');
             setUserRole('admin');
             navigate('/AdminDashboard');
         } else {
