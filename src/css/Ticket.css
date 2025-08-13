@@ -1,23 +1,54 @@
-/* === Modal Overlay === */
+/* === Ticket Modal Overlay === */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 44, 95, 0.9); /* Deep Air Canada blue */
     z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Share Tech Mono', monospace;
 }
+
+.box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket {
+    width: 650px;
+    background: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFC107;
+    padding: 1rem;
+    color: #ddd;
+    position: relative;
+    z-index: 10;
+}
+
+.left, .right {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+
 
 /* === Close Button === */
 .close-button {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: #fff;
+    background: #D71920;
+    color: white;
     border: none;
     padding: 8px 12px;
     font-size: 14px;
@@ -27,233 +58,82 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* === Ticket Layout === */
-.box {
-    position: relative;
+.close-button:hover {
+    background-color: #b4161a;
 }
 
+/* === Ticket Container === */
 .ticket {
-    width: 600px;
-    height: 250px;
-    background: #FFB300;
-    border-radius: 3px;
-    box-shadow: 0 0 100px #aaa;
-    border-top: 1px solid #E89F3D;
-    border-bottom: 1px solid #E89F3D;
+    width: 650px;
+    height: auto;
+    background: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFC107;
+    padding: 1rem;
     position: relative;
+    color: #ddd;
 }
 
-.left, .right {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: absolute;
-    top: 0px;
-}
-
-.left {
-    left: -5px;
-}
-
-.right {
-    right: -5px;
-}
-
-.left li, .right li {
-    width: 0px;
-    height: 0px;
-}
-
-/* Left edge styling */
-.left li:nth-child(-n+2),
-.left li:nth-child(13),
-.left li:nth-child(14) {
-    margin-top: 8px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 5px solid #FFB300;
-}
-
-.left li:nth-child(3),
-.left li:nth-child(6),
-.left li:nth-child(4),
-.left li:nth-child(5),
-.left li:nth-child(7),
-.left li:nth-child(9),
-.left li:nth-child(11),
-.left li:nth-child(12),
-.left li:nth-child(8),
-.left li:nth-child(10) {
-    margin-top: 8px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 5px solid #EEEEEE;
-}
-
-/* Right edge styling */
-.right li:nth-child(-n+2),
-.right li:nth-child(13),
-.right li:nth-child(14) {
-    margin-top: 8px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 5px solid #FFB300;
-}
-
-.right li:nth-child(3),
-.right li:nth-child(4),
-.right li:nth-child(5),
-.right li:nth-child(6),
-.right li:nth-child(7),
-.right li:nth-child(8),
-.right li:nth-child(9),
-.right li:nth-child(10),
-.right li:nth-child(11),
-.right li:nth-child(12) {
-    margin-top: 8px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 5px solid #EEEEEE;
-}
-
-/* Ticket divider */
-.ticket:after {
-    content: '';
-    position: absolute;
-    right: 200px;
-    top: 0px;
-    width: 2px;
-    height: 250px;
-    box-shadow: inset 0 -10px 0 #B56E0A,
-    inset 0 -20px 0 #FFB300,
-    inset 0 -30px 0 #B56E0A,
-    inset 0 -40px 0 #FFB300,
-    inset 0 -50px 0 #999999,
-    inset 0 -60px 0 #E5E5E5,
-    inset 0 -70px 0 #999999,
-    inset 0 -80px 0 #E5E5E5,
-    inset 0 -90px 0 #999999,
-    inset 0 -100px 0 #E5E5E5,
-    inset 0 -110px 0 #999999,
-    inset 0 -120px 0 #E5E5E5,
-    inset 0 -130px 0 #999999,
-    inset 0 -140px 0 #E5E5E5,
-    inset 0 -150px 0 #B0B0B0,
-    inset 0 -160px 0 #EEEEEE,
-    inset 0 -170px 0 #B0B0B0,
-    inset 0 -180px 0 #EEEEEE,
-    inset 0 -190px 0 #B0B0B0,
-    inset 0 -200px 0 #EEEEEE,
-    inset 0 -210px 0 #B0B0B0,
-    inset 0 -220px 0 #FFB300,
-    inset 0 -230px 0 #B56E0A,
-    inset 0 -240px 0 #FFB300,
-    inset 0 -250px 0 #B56E0A;
-}
-
-.ticket:before {
-    content: '';
-    position: absolute;
-    z-index: 5;
-    right: 199px;
-    top: 0px;
-    width: 1px;
-    height: 250px;
-    box-shadow: inset 0 -10px 0 #F4D483,
-    inset 0 -20px 0 #FFB300,
-    inset 0 -30px 0 #F4D483,
-    inset 0 -40px 0 #FFB300,
-    inset 0 -50px 0 #FFFFFF,
-    inset 0 -60px 0 #E5E5E5,
-    inset 0 -70px 0 #FFFFFF,
-    inset 0 -80px 0 #E5E5E5,
-    inset 0 -90px 0 #FFFFFF,
-    inset 0 -100px 0 #E5E5E5,
-    inset 0 -110px 0 #FFFFFF,
-    inset 0 -120px 0 #E5E5E5,
-    inset 0 -130px 0 #FFFFFF,
-    inset 0 -140px 0 #E5E5E5,
-    inset 0 -150px 0 #FFFFFF,
-    inset 0 -160px 0 #EEEEEE,
-    inset 0 -170px 0 #FFFFFF,
-    inset 0 -180px 0 #EEEEEE,
-    inset 0 -190px 0 #FFFFFF,
-    inset 0 -200px 0 #EEEEEE,
-    inset 0 -210px 0 #FFFFFF,
-    inset 0 -220px 0 #FFB300,
-    inset 0 -230px 0 #F4D483,
-    inset 0 -240px 0 #FFB300,
-    inset 0 -250px 0 #F4D483;
-}
-
-/* === Ticket Content === */
-.content {
-    position: absolute;
-    top: 40px;
-    width: 100%;
-    height: 170px;
-    background: #eee;
-}
-
-.airline, .airlineslip {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-family: Arial, serif;
-    font-size: 20px;
+/* === Header === */
+.airline {
+    font-size: 24px;
     font-weight: bold;
-    color: rgba(0,0,102,1);
+    color: #FFC107;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .boarding {
-    position: absolute;
-    top: 10px;
-    right: 220px;
-    font-family: Arial;
     font-size: 18px;
+    color: #D71920;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* === Route Section === */
+.route {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.route .code {
+    margin: 0 20px;
+    color: #FFC107;
+}
+
+/* === Details Section === */
+.details {
+    display: flex;
+    justify-content: space-around;
+    background: #002C5F;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
     color: #fff;
 }
 
-.jfk, .sfo, .jfkslip, .sfoslip {
-    position: absolute;
-    font-family: Arial;
-    font-size: 38px;
-    color: #222;
+.details div {
+    flex: 1;
+    padding: 0 0.5rem;
 }
 
-.jfk { top: 10px; left: 20px; }
-.sfo { top: 10px; left: 180px; }
-.jfkslip { font-size: 30px; top: 20px; left: 410px; }
-.sfoslip { font-size: 30px; top: 20px; left: 530px; }
-
-.plane, .planeslip {
-    position: absolute;
-    top: 10px;
-    left: 105px;
-    font-size: 24px;
+/* === Barcode Placeholder === */
+.barcode {
+    margin-top: 1rem;
+    height: 40px;
+    background: repeating-linear-gradient(
+            90deg,
+            #fff,
+            #fff 2px,
+            #000 2px,
+            #000 4px
+    );
+    border-radius: 4px;
 }
-
-.planeslip { left: 475px; }
-
-.sub-content {
-    background: #333;
-    width: 100%;
-    height: 100px;
-    position: absolute;
-    top: 70px;
-}
-
-.watermark {
-    position: absolute;
-    left: 5px;
-    top: -10px;
-    font-family: Arial;
-    font-size: 110px;
-    font-weight: bold;
-    color: rgba(255,255,255,0.2);
-}
-
-.name, .flight, .gate, .seat, .boardingtime,
-.nameslip, .flightslip, .seatslip {
-    position: absolute;
-    font-family: Arial Narrow, Arial;}

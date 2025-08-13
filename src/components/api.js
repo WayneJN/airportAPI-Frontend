@@ -1,20 +1,34 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api'; // Adjust if needed
+const BASE_URL = 'http://localhost:8080/api';
+
+const pluralMap = {
+    flight: 'flights',
+    passenger: 'passengers',
+    airport: 'airports',
+    aircraft: 'aircraft',
+    airline: 'airlines',
+    gate: 'gates',
+    city: 'cities'
+};
+
 
 export const getEntityById = async (entityType, id) => {
-    const endpoint = entityType === 'passenger' ? `/passengers/${id}` : `/${entityType}/${id}`;
-    const response = await axios.get(`${BASE_URL}${endpoint}`);
+    const plural = pluralMap[entityType] || entityType;
+    const response = await axios.get(`${BASE_URL}/${plural}/${id}`);
     return response.data;
 };
+
 
 export const updateEntity = async (entityType, id, data) => {
-    const endpoint = entityType === 'passenger' ? `/passengers/${id}` : `/${entityType}/${id}`;
-    return await axios.put(`${BASE_URL}${endpoint}`, data);
+    const plural = pluralMap[entityType] || entityType;
+    return await axios.put(`${BASE_URL}/${plural}/${id}`, data);
 };
 
+
 export const getDropdownOptions = async (entityType) => {
-    const endpoint = entityType === 'passenger' ? `/passengers` : `/${entityType}`;
-    const response = await axios.get(`${BASE_URL}${endpoint}`);
+    const plural = pluralMap[entityType] || entityType;
+    const response = await axios.get(`${BASE_URL}/${plural}`);
     return response.data;
 };
+
