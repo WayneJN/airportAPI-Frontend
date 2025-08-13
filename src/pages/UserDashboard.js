@@ -36,24 +36,26 @@ const UserDashboard = ({
                     <table>
                         <thead>
                         <tr>
+                            <th>Origin</th>
                             <th>Destination</th>
                             <th>Airline</th>
-                            <th>Arrival</th>
                             <th>Departure</th>
-                            <th>Type</th>
+                            <th>Arrival</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {flights.map((flight, index) => (
                             <tr key={index}>
-                                <td>{flight.destination}</td>
-                                <td>{flight.airline}</td>
-                                <td>{flight.arrivalTime}</td>
+                                <td>{flight.originAirportCode}</td>
+                                <td>{flight.destinationAirportCode}</td>
+                                <td>{flight.airlineName}</td>
                                 <td>{flight.departureTime}</td>
-                                <td>{flight.type}</td>
+                                <td>{flight.arrivalTime}</td>
                                 <td>
-                                    <button onClick={() => setSelectedFlight(flight)}>View Ticket</button>
+                                    <button className="crud-button view" onClick={() => setSelectedFlight(flight)}>
+                                        View Ticket
+                                    </button>
                                 </td>
                             </tr>
                         ))}

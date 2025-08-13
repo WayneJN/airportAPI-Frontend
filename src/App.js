@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from './logo.svg';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
@@ -26,13 +25,8 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.fetchData('/api/cities', 'cities');
-        this.fetchData('/api/flights', 'flights');
-        this.fetchData('/api/airports', 'airports');
-        this.fetchData('/api/aircraft', 'aircraft');
-        this.fetchData('/api/airlines', 'airlines');
-        this.fetchData('/api/gates', 'gates');
-        this.fetchData('/passengers', 'passengers'); // Note: no /api prefix
+        const entities = ['cities', 'flights', 'airports', 'aircraft', 'airlines', 'gates', 'passengers'];
+        entities.forEach(entity => this.fetchData(`/api/${entity}`, entity));
     }
 
     fetchData(endpoint, stateKey) {
@@ -51,46 +45,62 @@ class App extends Component {
         this.setState({ userRole: role });
     };
 
-    handleAddFlight = (flight) => {
-        fetch('http://localhost:8080/api/flights', {
+    handleAddEntity = (entityType, data) => {
+        const plural = this.getPlural(entityType);
+        fetch(`http://localhost:8080/api/${plural}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(flight)
+            body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(newFlight => {
+            .then(newEntity => {
                 this.setState(prev => ({
-                    flights: [...prev.flights, newFlight]
+                    [plural]: [...prev[plural], newEntity]
                 }));
             })
             .catch(err => console.error(err));
     };
 
-    handleUpdateFlight = (flight) => {
-        fetch(`http://localhost:8080/api/flights/${flight.id}`, {
+    handleUpdateEntity = (entityType, id, data) => {
+        const plural = this.getPlural(entityType);
+        fetch(`http://localhost:8080/api/${plural}/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(flight)
+            body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(updatedFlight => {
+            .then(updatedEntity => {
                 this.setState(prev => ({
-                    flights: prev.flights.map(f => f.id === updatedFlight.id ? updatedFlight : f)
+                    [plural]: prev[plural].map(e => e.id === updatedEntity.id ? updatedEntity : e)
                 }));
             })
             .catch(err => console.error(err));
     };
 
-    handleDeleteFlight = (id) => {
-        fetch(`http://localhost:8080/api/flights/${id}`, {
+    handleDeleteEntity = (entityType, id) => {
+        const plural = this.getPlural(entityType);
+        fetch(`http://localhost:8080/api/${plural}/${id}`, {
             method: 'DELETE'
         })
             .then(() => {
                 this.setState(prev => ({
-                    flights: prev.flights.filter(f => f.id !== id)
+                    [plural]: prev[plural].filter(e => e.id !== id)
                 }));
             })
             .catch(err => console.error(err));
+    };
+
+    getPlural = (entityType) => {
+        const pluralMap = {
+            flight: 'flights',
+            passenger: 'passengers',
+            airport: 'airports',
+            aircraft: 'aircraft',
+            airline: 'airlines',
+            gate: 'gates',
+            city: 'cities'
+        };
+        return pluralMap[entityType] || entityType;
     };
 
     render() {
@@ -120,9 +130,9 @@ class App extends Component {
                                     aircraft={aircraft}
                                     airlines={airlines}
                                     cities={cities}
-                                    onAddFlight={this.handleAddFlight}
-                                    onUpdateFlight={this.handleUpdateFlight}
-                                    onDeleteFlight={this.handleDeleteFlight}
+                                    onAddEntity={this.handleAddEntity}
+                                    onUpdateEntity={this.handleUpdateEntity}
+                                    onDeleteEntity={this.handleDeleteEntity}
                                 />
                             ) : (
                                 <Navigate to="/" replace />
