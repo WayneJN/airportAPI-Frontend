@@ -5,54 +5,56 @@ const TicketModal = ({ flight, passenger, onClose }) => {
     const formatBoardingTime = (departureTime) => {
         const dep = new Date(departureTime);
         dep.setHours(dep.getHours() - 2);
-        return dep.toLocaleString();
+        return dep.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
     return (
         <div className="modal-overlay">
-            <div className="box">
-                <ul className="left">{Array.from({ length: 14 }, (_, i) => <li key={i}></li>)}</ul>
-                <ul className="right">{Array.from({ length: 14 }, (_, i) => <li key={i}></li>)}</ul>
-
+            <div className="ticket-wrapper">
                 <div className="ticket">
-                    <span className="airline">{flight.airlineName || flight.airline || 'Airline'}</span>
-                    <span className="boarding">Boarding Pass</span>
-
-                    <div className="content">
-                        <div className="route">
-                            <span className="code">{flight.departureCode || 'XXX'}</span>
-                            <span className="plane">✈️</span>
-                            <span className="code">{flight.destinationCode || 'YYY'}</span>
-                        </div>
-
-                        <div className="details">
-                            <div>
-                                <strong>Passenger:</strong><br />
-                                {passenger?.firstName || 'John'} {passenger?.lastName || 'Doe'}
-                            </div>
-                            <div>
-                                <strong>Flight #:</strong><br />
-                                {flight.flightNumber || 'X3-65C3'}
-                            </div>
-                            <div>
-                                <strong>Gate:</strong><br />
-                                {flight.gate || '11B'}
-                            </div>
-                            <div>
-                                <strong>Seat:</strong><br />
-                                {flight.seat || '5A'}
-                            </div>
-                            <div>
-                                <strong>Boarding Time:</strong><br />
-                                {formatBoardingTime(flight.departureTime)}
-                            </div>
-                        </div>
+                    {/* Header */}
+                    <div className="ticket-header">
+                        <span className="header-left">{flight.airlineName || 'Air Canada'}</span>
+                        <span className="header-right">Boarding Pass</span>
                     </div>
 
-                    <div className="barcode"></div>
+                    <div className="ticket-content">
+                        <div className="info-row">
+                            <span>Passenger</span>
+                            <span>{passenger?.firstName || 'John'} {passenger?.lastName || 'Doe'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span>Seat</span>
+                            <span>{flight.seat || '12A'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span>Boarding Time</span>
+                            <span>{formatBoardingTime(flight.departureTime)}</span>
+                        </div>
+
+                        <div className="tear-line"></div>
+
+                        <div className="slip-info">
+                            Flight: {flight.flightNumber || 'AC123'}<br />
+                            Gate: {flight.gate || 'B7'}<br />
+                            Departure: {flight.departureCode || 'YYT'}<br />
+                            Arrival: {flight.destinationCode || 'YYZ'}
+                        </div>
+                    </div>
+                    <div className="barcode">
+                        {Array.from({ length: 10 }, (_, i) => (
+                            <span key={i}></span>
+                        ))}
+                    </div>
+
+
+                    {/* Red Bottom Bar */}
+                    <div className="ticket-footer-bar"></div>
                 </div>
+
+                {/* Close Button outside ticket */}
+                <button className="close-button" onClick={onClose}>Close</button>
             </div>
-            <button className="close-button" onClick={onClose}>Close</button>
         </div>
     );
 };

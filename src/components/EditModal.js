@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Dashboard.css';
-import { getEntityById, updateEntity, getDropdownOptions } from './api';
+import { getEntityById, updateEntity, createEntity, getDropdownOptions } from './api';
 import { formConfig } from './formConfig';
-import '../css/Modal.css'; // adjust path if needed
-
+import '../css/Modal.css';
 
 const EditModal = ({ entityType, entityId, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({});
@@ -14,8 +13,10 @@ const EditModal = ({ entityType, entityId, onClose, onSuccess }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getEntityById(entityType, entityId);
-                setFormData(data);
+                if (entityId !== null) {
+                    const data = await getEntityById(entityType, entityId);
+                    setFormData(data);
+                }
 
                 const config = formConfig[entityType];
                 const dropdownFields = config.fields.filter(f => f.type === 'dropdown');
@@ -43,11 +44,15 @@ const EditModal = ({ entityType, entityId, onClose, onSuccess }) => {
 
     const handleSubmit = async () => {
         try {
-            await updateEntity(entityType, entityId, formData);
+            if (entityId === null) {
+                await createEntity(entityType, formData); // ✅ Create new
+            } else {
+                await updateEntity(entityType, entityId, formData); // ✅ Update existing
+            }
             onSuccess();
             onClose();
         } catch (err) {
-            setError('Update failed');
+            setError('Save failed');
         }
     };
 
@@ -57,7 +62,7 @@ const EditModal = ({ entityType, entityId, onClose, onSuccess }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h3>Edit {config.label}</h3>
+                <h3>{entityId === null ? `Add New ${config.label}` : `Edit ${config.label}`}</h3>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (

@@ -1,139 +1,155 @@
-/* === Ticket Modal Overlay === */
+/* Center the modal */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 44, 95, 0.9); /* Deep Air Canada blue */
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Share Tech Mono', monospace;
-}
-
-.box {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.ticket {
-    width: 650px;
-    background: #111;
-    border-radius: 12px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-    border: 2px solid #FFC107;
-    padding: 1rem;
-    color: #ddd;
-    position: relative;
-    z-index: 10;
-}
-
-.left, .right {
-    position: absolute;
-    top: 0;
+    width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
 
+/* Wrapper for ticket */
+.ticket-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+/* Ticket styling */
+.ticket {
+    width: 440px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-/* === Close Button === */
-.close-button {
+/* Blue header split left/right */
+.ticket-header {
+    background-color: #005daa;
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Decorative shapes */
+.ticket::before,
+.ticket::after {
+    content: '';
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #D71920;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.ticket::before {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at center, #ffcc00, #ff6600);
+    top: 40px;
+    left: -30px;
+    opacity: 0.3;
+}
+
+.ticket::after {
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle at center, #00bfff, #005daa);
+    bottom: -40px;
+    right: -50px;
+    opacity: 0.3;
+}
+
+/* Ticket content */
+.ticket-content {
+    position: relative;
+    z-index: 1;
+    padding: 16px;
+}
+
+/* Info rows with tighter spacing and better contrast */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 4px 0;
+    line-height: 1.2;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Tear line – single horizontal dotted line */
+.tear-line {
+    border-top: 2px dotted #ccc;
+    margin: 12px 0;
+    width: 100%;
+}
+
+/* Slip info section */
+.slip-info {
+    font-size: 13px;
+    line-height: 1.2;
+    margin: 4px 0;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Red bottom bar */
+.ticket-footer-bar {
+    background-color: #d32f2f;
+    height: 16px;
+    width: 100%;
+}
+
+.barcode {
+    position: absolute;
+    bottom: 32px;
+    right: 16px;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.barcode span {
+    display: block;
+    height: 100%;
+    background-color: #222;
+    border-radius: 1px;
+}
+
+/* Simulate barcode lines with varied widths */
+.barcode span:nth-child(1) { width: 2px; }
+.barcode span:nth-child(2) { width: 1px; }
+.barcode span:nth-child(3) { width: 3px; }
+.barcode span:nth-child(4) { width: 1px; }
+.barcode span:nth-child(5) { width: 2px; }
+.barcode span:nth-child(6) { width: 1px; }
+.barcode span:nth-child(7) { width: 3px; }
+.barcode span:nth-child(8) { width: 2px; }
+.barcode span:nth-child(9) { width: 1px; }
+.barcode span:nth-child(10) { width: 2px; }
+
+
+/* Close button outside ticket */
+.close-button {
+    margin-top: 16px;
+    padding: 8px 16px;
+    background-color: #005daa;
     color: white;
     border: none;
-    padding: 8px 12px;
-    font-size: 14px;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 4px;
-    z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-.close-button:hover {
-    background-color: #b4161a;
-}
-
-/* === Ticket Container === */
-.ticket {
-    width: 650px;
-    height: auto;
-    background: #111;
-    border-radius: 12px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-    border: 2px solid #FFC107;
-    padding: 1rem;
-    position: relative;
-    color: #ddd;
-}
-
-/* === Header === */
-.airline {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FFC107;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.boarding {
-    font-size: 18px;
-    color: #D71920;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-/* === Route Section === */
-.route {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 1rem;
-}
-
-.route .code {
-    margin: 0 20px;
-    color: #FFC107;
-}
-
-/* === Details Section === */
-.details {
-    display: flex;
-    justify-content: space-around;
-    background: #002C5F;
-    padding: 1rem;
-    border-radius: 8px;
     font-size: 14px;
-    text-align: center;
-    color: #fff;
-}
-
-.details div {
-    flex: 1;
-    padding: 0 0.5rem;
-}
-
-/* === Barcode Placeholder === */
-.barcode {
-    margin-top: 1rem;
-    height: 40px;
-    background: repeating-linear-gradient(
-            90deg,
-            #fff,
-            #fff 2px,
-            #000 2px,
-            #000 4px
-    );
-    border-radius: 4px;
 }

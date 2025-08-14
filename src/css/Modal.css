@@ -15,9 +15,9 @@
 /* Modal content */
 .modal-content {
     background: #111;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     border-radius: 12px;
-    width: 400px;
+    width: 420px;
     max-width: 90%;
     color: #fff;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
@@ -43,27 +43,45 @@
     gap: 1rem;
 }
 
+/* Form group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* Labels */
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #ffc107;
+}
+
 /* Input and select fields */
 .modal-content input,
 .modal-content select {
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 6px;
     border: none;
     background-color: #222;
     color: #fff;
     font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Button container */
 .modal-actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 /* Buttons */
 .modal-actions button {
-    padding: 0.5rem 1rem;
+    flex: 1;
+    padding: 0.6rem 1rem;
     border: none;
     border-radius: 6px;
     font-weight: bold;
@@ -71,6 +89,7 @@
     background-color: #28a745;
     color: white;
     transition: background-color 0.2s ease;
+    font-size: 1rem;
 }
 
 .modal-actions button:hover {
@@ -94,4 +113,5 @@
     text-align: center;
     margin-top: 1rem;
     font-weight: bold;
+    font-size: 0.95rem;
 }

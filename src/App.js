@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 // Pages
 import LoginPage from './pages/LoginPage';
@@ -20,7 +22,7 @@ class App extends Component {
             airlines: [],
             gates: [],
             passengers: [],
-            userRole: null
+            userRole: localStorage.getItem('userRole') || null
         };
     }
 
@@ -117,7 +119,9 @@ class App extends Component {
         return (
             <Router>
                 <Routes>
-                    <Route path="/" element={<LoginPage setUserRole={this.setUserRole} />} />
+                    <Route path="/login" element={<LoginPage setUserRole={this.setUserRole} />} />
+                    <Route path="/" element={<Navigate to="/login" replace />} />
+
 
                     <Route
                         path="/AdminDashboard"
