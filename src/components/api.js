@@ -32,3 +32,14 @@ export const getDropdownOptions = async (entityType) => {
     return response.data;
 };
 
+export const createEntity = async (entityType, data) => {
+    const response = await fetch(`/api/${entityType}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Create failed');
+    return await response.json();
+};
+
+

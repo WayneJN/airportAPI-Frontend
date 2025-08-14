@@ -102,7 +102,8 @@ const UserDashboard = ({
                             <tr key={index}>
                                 <td>{a.name}</td>
                                 <td>{a.code}</td>
-                                <td>{a.city?.name}</td>
+                                <td>{a.cityName}, {a.cityState}</td>
+
                             </tr>
                         ))}
                         </tbody>

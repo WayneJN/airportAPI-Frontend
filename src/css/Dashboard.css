@@ -1,33 +1,45 @@
+/* Base styling */
 body {
     background: #002C5F;
     color: #ddd;
     font-family: 'Share Tech Mono', monospace;
+    margin: 0;
+    padding: 0;
 }
 
+/* Dashboard container */
 .ticker {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     margin: 2rem auto;
     background-color: #111;
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Dashboard title */
 .dashboard-title {
     color: #FFC107;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
+/* View toggle buttons */
 .view-toggle {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
 .view-toggle button {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     border: none;
     background-color: #D71920;
     color: white;
@@ -35,6 +47,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    font-size: 1rem;
 }
 
 .view-toggle button.active,
@@ -42,28 +55,115 @@ body {
     background-color: #b4161a;
 }
 
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+    margin-bottom: 2rem;
+}
+
+thead {
+    background-color: #222;
+}
+
+th, td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
 }
 
 th {
     color: #FFC107;
-    font-size: 1.2em;
-    padding-bottom: 0.5em;
-}
-
-td {
-    padding: 0.5em 0;
-    font-size: 1.5em;
+    font-size: 1.1em;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
-.text-right {
-    text-align: right;
+td {
+    font-size: 1em;
+    color: #eee;
+    vertical-align: middle;
 }
 
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+/* CRUD buttons */
+.crud-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.crud-button.add {
+    background-color: #28a745;
+    color: white;
+}
+
+.crud-button.update {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.crud-button.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.crud-button.view {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.crud-button:hover {
+    opacity: 0.9;
+}
+
+/* Optional section wrapper */
+.section-box {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #0d1b2a;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Logout section */
+.logout-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+/* Animation classes */
 .animate-enter {
     opacity: 0;
     transform: translateY(-20px);
@@ -75,9 +175,7 @@ td {
     transform: translateY(0);
 }
 
-
-/*Admin CSS */
-
+/* Form section for admin */
 .form-section {
     display: flex;
     flex-wrap: wrap;
@@ -96,53 +194,3 @@ td {
     color: #fff;
     width: 150px;
 }
-
-.crud-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.crud-button.add {
-    background-color: #28a745;
-    color: white;
-}
-
-.crud-button.update {
-    background-color: #17a2b8;
-    color: white;
-    margin-right: 0.5rem;
-}
-
-.crud-button.delete {
-    background-color: #dc3545;
-    color: white;
-}
-
-.crud-button:hover {
-    opacity: 0.9;
-}
-
-/*Logout*/
-.logout-container {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.logout-button {
-    padding: 10px 20px;
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.logout-button:hover {
-    background-color: #c9302c;
-}
-
-

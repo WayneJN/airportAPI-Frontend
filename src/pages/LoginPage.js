@@ -30,21 +30,32 @@ const LoginPage = ({ setUserRole }) => {
         <div className="container">
             <div className="screen">
                 <div className="screen__content">
+                    <div className="login__welcome">
+                        <i className="fas fa-plane-departure"
+                           style={{fontSize: '32px', color: '#D71920', marginBottom: '12px'}}></i>
+                        <h1 className="welcome-title">Welcome to Air Canada</h1>
+                        <h2 className="welcome-subtext">Your journey starts here</h2>
+                    </div>
+
                     <form className="login" onSubmit={handleLogin}>
                         <div className="login__field">
+                            <label htmlFor="username" className="login__label">Username</label>
                             <input
+                                id="username"
                                 type="text"
                                 className="login__input"
-                                placeholder="Username"
+                                placeholder="Enter your username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
                         <div className="login__field">
+                            <label htmlFor="password" className="login__label">Password</label>
                             <input
+                                id="password"
                                 type="password"
                                 className="login__input"
-                                placeholder="Password"
+                                placeholder="Enter your password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -54,6 +65,10 @@ const LoginPage = ({ setUserRole }) => {
                         </button>
                         {error && <p className="error-message">{error}</p>}
                     </form>
+
+                    <p className="login__footer">✈️ Powered by AirConnect • Fly smarter</p>
+
+
                 </div>
                 <div className="screen__background">
                     <span className="screen__background__shape screen__background__shape4"></span>
@@ -61,6 +76,9 @@ const LoginPage = ({ setUserRole }) => {
                     <span className="screen__background__shape screen__background__shape2"></span>
                     <span className="screen__background__shape screen__background__shape1"></span>
                 </div>
+                <div className="cloud cloud3"></div>
+                <div className="cloud cloud4"></div>
+
             </div>
         </div>
     );
