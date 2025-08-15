@@ -14,6 +14,7 @@ const UserDashboard = ({
     const navigate = useNavigate();
     const [view, setView] = useState('flights');
     const [selectedFlight, setSelectedFlight] = useState(null);
+    const [selectedAirportCode, setSelectedAirportCode] = useState('');
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -32,36 +33,96 @@ const UserDashboard = ({
     const renderTable = () => {
         switch (view) {
             case 'flights':
-                return (
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Origin</th>
-                            <th>Destination</th>
-                            <th>Airline</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {flights.map((flight, index) => (
-                            <tr key={index}>
-                                <td>{flight.originAirportCode}</td>
-                                <td>{flight.destinationAirportCode}</td>
-                                <td>{flight.airlineName}</td>
-                                <td>{flight.departureTime}</td>
-                                <td>{flight.arrivalTime}</td>
-                                <td>
-                                    <button className="crud-button view" onClick={() => setSelectedFlight(flight)}>
-                                        View Ticket
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                const filteredDepartures = flights.filter(
+                    (f) => f.originAirportCode === selectedAirportCode
                 );
+                const filteredArrivals = flights.filter(
+                    (f) => f.destinationAirportCode === selectedAirportCode
+                );
+
+                return (
+                    <>
+                        <div className="airport-selector">
+                            <label>Select Airport:</label>
+                            <select
+                                value={selectedAirportCode}
+                                onChange={(e) => setSelectedAirportCode(e.target.value)}
+                            >
+                                <option value="">-- Choose an Airport --</option>
+                                {airports.map((airport) => (
+                                    <option key={airport.id} value={airport.code}>
+                                        {airport.name} ({airport.code})
+                                    </option>
+                                ))}
+                            </select>
+                            <p className="airport-message">Please select an airport to view arrivals and departures.</p>
+
+                        </div>
+
+                        {selectedAirportCode ? (
+                            <>
+                                <h3>Departures from {selectedAirportCode}</h3>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Destination</th>
+                                        <th>Airline</th>
+                                        <th>Departure</th>
+                                        <th>Arrival</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {filteredDepartures.map((flight, index) => (
+                                        <tr key={index}>
+                                            <td>{flight.destinationAirportCode}</td>
+                                            <td>{flight.airlineName}</td>
+                                            <td>{flight.departureTime}</td>
+                                            <td>{flight.arrivalTime}</td>
+                                            <td>
+                                                <button className="crud-button view" onClick={() => setSelectedFlight(flight)}>
+                                                    View Ticket
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+
+                                <h3>Arrivals to {selectedAirportCode}</h3>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Origin</th>
+                                        <th>Airline</th>
+                                        <th>Departure</th>
+                                        <th>Arrival</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {filteredArrivals.map((flight, index) => (
+                                        <tr key={index}>
+                                            <td>{flight.originAirportCode}</td>
+                                            <td>{flight.airlineName}</td>
+                                            <td>{flight.departureTime}</td>
+                                            <td>{flight.arrivalTime}</td>
+                                            <td>
+                                                <button className="crud-button view" onClick={() => setSelectedFlight(flight)}>
+                                                    View Ticket
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </>
+                        ) : (
+                            <p></p>
+                        )}
+                    </>
+                );
+
             case 'passengers':
                 return (
                     <table>
@@ -87,6 +148,7 @@ const UserDashboard = ({
                         </tbody>
                     </table>
                 );
+
             case 'airports':
                 return (
                     <table>
@@ -103,12 +165,12 @@ const UserDashboard = ({
                                 <td>{a.name}</td>
                                 <td>{a.code}</td>
                                 <td>{a.cityName}, {a.cityState}</td>
-
                             </tr>
                         ))}
                         </tbody>
                     </table>
                 );
+
             case 'aircraft':
                 return (
                     <table>
@@ -130,6 +192,7 @@ const UserDashboard = ({
                         </tbody>
                     </table>
                 );
+
             case 'airlines':
                 return (
                     <table>
@@ -151,6 +214,7 @@ const UserDashboard = ({
                         </tbody>
                     </table>
                 );
+
             case 'cities':
                 return (
                     <table>
@@ -172,6 +236,7 @@ const UserDashboard = ({
                         </tbody>
                     </table>
                 );
+
             default:
                 return null;
         }

@@ -19,6 +19,7 @@ const AdminDashboard = ({
     const [modalOpen, setModalOpen] = useState(false);
     const [modalEntityType, setModalEntityType] = useState('');
     const [modalEntityId, setModalEntityId] = useState(null);
+    const [selectedAirportCode, setSelectedAirportCode] = useState('');
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -66,14 +67,88 @@ const AdminDashboard = ({
             </button>
         );
 
-        const wrapTable = (headers, rows) => (
+        const wrapTable = (headers, rows, showSelector = false) => (
             <div className="table-wrapper">
-                <table>
-                    <thead>
-                    <tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
-                    </thead>
-                    <tbody>{rows}</tbody>
-                </table>
+                {showSelector && (
+                    <div className="airport-selector">
+                        <label>Select Airport:</label>
+                        <select
+                            value={selectedAirportCode}
+                            onChange={(e) => setSelectedAirportCode(e.target.value)}
+                        >
+                            <option value="">-- Choose an Airport --</option>
+                            {airports.map((airport) => (
+                                <option key={airport.id} value={airport.code}>
+                                    {airport.name} ({airport.code})
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+                {showSelector && selectedAirportCode && (
+                    <>
+                        <h3>Departures from {selectedAirportCode}</h3>
+                        <table>
+                            <thead>
+                            <tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                            </thead>
+                            <tbody>
+                            {flights
+                                .filter(f => f.originAirportCode === selectedAirportCode)
+                                .map((flight, index) => (
+                                    <tr key={index}>
+                                        <td>{flight.originAirportCode}</td>
+                                        <td>{flight.destinationAirportCode}</td>
+                                        <td>{flight.airlineName}</td>
+                                        <td>{flight.departureTime}</td>
+                                        <td>{flight.arrivalTime}</td>
+                                        <td>
+                                            <button className="crud-button update" onClick={() => handleEdit('flight', flight.id)}>Update</button>
+                                            <button className="crud-button delete" onClick={() => handleDelete('flight', flight.id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <h3>Arrivals to {selectedAirportCode}</h3>
+                        <table>
+                            <thead>
+                            <tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                            </thead>
+                            <tbody>
+                            {flights
+                                .filter(f => f.destinationAirportCode === selectedAirportCode)
+                                .map((flight, index) => (
+                                    <tr key={index}>
+                                        <td>{flight.originAirportCode}</td>
+                                        <td>{flight.destinationAirportCode}</td>
+                                        <td>{flight.airlineName}</td>
+                                        <td>{flight.departureTime}</td>
+                                        <td>{flight.arrivalTime}</td>
+                                        <td>
+                                            <button className="crud-button update" onClick={() => handleEdit('flight', flight.id)}>Update</button>
+                                            <button className="crud-button delete" onClick={() => handleDelete('flight', flight.id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </>
+                )}
+                {showSelector && !selectedAirportCode && (
+                    <p className="airport-message">Please select an airport to view arrivals and departures.</p>
+                )}
+                {!showSelector && (
+                    <>
+                        <table>
+                            <thead>
+                            <tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                            </thead>
+                            <tbody>{rows}</tbody>
+                        </table>
+                    </>
+                )}
                 <div className="add-button-wrapper">
                     {addButton}
                 </div>
